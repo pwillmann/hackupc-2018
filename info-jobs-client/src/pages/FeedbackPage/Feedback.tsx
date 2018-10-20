@@ -224,7 +224,7 @@ const LoadingContainer = styled.div`
 export class Feedback extends React.Component<any, any> {
   state = {
     analysis: null,
-    jobOffers: null,
+    selectedJobOffers: null,
     isLoading: true
   };
 
@@ -251,7 +251,8 @@ export class Feedback extends React.Component<any, any> {
     });
     const jobOffers = await response.json()
     console.log(jobOffers)
-    await this.setState({ ...this.state, jobOffers });
+    const selectedJobOffers = jobOffers.offers.splice(0,5)
+    await this.setState({ ...this.state, selectedJobOffers });
     const isLoading = false
     this.setState({ ...this.state, isLoading })
     return null
@@ -259,7 +260,8 @@ export class Feedback extends React.Component<any, any> {
 
   public render() {
     const { analysis } = this.props.location.state;
-    const { jobOffers, isLoading } = this.state;
+    const { selectedJobOffers, isLoading } = this.state;
+
     console.log(analysis);
 
     return (
@@ -313,7 +315,12 @@ export class Feedback extends React.Component<any, any> {
                 <CircularProgress size={48} />
               </LoadingContainer>
             ):(
-              <JobOfferCard jobOffer={jobOffers.offers[0]}/>
+              <div>
+              { selectedJobOffers.map(o =>
+                  <JobOfferCard jobOffer={o}/>
+              )},
+              </div>
+
             )
           }
           <SignUpExplainer>
