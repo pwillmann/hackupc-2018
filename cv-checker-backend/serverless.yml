@@ -22,7 +22,7 @@ provider:
   runtime: nodejs8.10
   profile: hackupc-serverless
   region: eu-central-1
-  stage: dev-pw
+  stage: dev
 
 custom:
   webpack:
@@ -51,16 +51,7 @@ functions:
       - http:
           path: cv
           method: post
-          cors:
-            origin: "*"
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
+          cors: true
 # you can add CloudFormation resource templates here
 #resources:
 #  Resources:
