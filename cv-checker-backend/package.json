@@ -17,6 +17,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "cv-parser-multiformats": "^1.1.5",
     "pdf2text": "^1.1.0",
     "rimraf": "^2.6.2",
