@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import FileDropZone from './components/FileDropZone';
 
 const Layout = styled.div`
   width: 100%;
@@ -20,14 +19,13 @@ const StyledHeader = styled.h1`
   font-weight: 700;
 `;
 
-export class CvDropDropDown extends React.Component<any, any> {
+export class ConfirmationPage extends React.Component {
   public render() {
-    const { history } = this.props;
+    console.log(this.props);
     return (
       <Layout>
         <Wrapper>
-          <StyledHeader>Drop your CV</StyledHeader>
-          <FileDropZone history={history} />
+          <StyledHeader>Confirm your data</StyledHeader>
         </Wrapper>
       </Layout>
     );
