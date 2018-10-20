@@ -4,10 +4,15 @@ import CvDropDown from 'pages/CvDropDownPage';
 import Analysis from 'pages/AnalysisPage';
 import JobOffers from 'pages/JobOfferPage';
 
+import Confirmation from 'pages/ConfirmationPage';
+
+
 export const Routes = () => (
   <Switch>
     <Route exact={true} path="/" component={CvDropDown} />
     <Route exact={true} path="/analysis" component={Analysis} />
     <Route exact={true} path="/job-offers" component={JobOffers} />
+    <Route exact={true} path="/confirmation" component={Confirmation} />
+
   </Switch>
 );

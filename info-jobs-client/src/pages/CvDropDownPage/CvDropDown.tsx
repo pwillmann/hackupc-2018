@@ -10,17 +10,24 @@ const Layout = styled.div`
 `;
 
 const Wrapper = styled.div`
-  max-width: 1280px;
+  width: 1280px;
   padding: 80px;
 `;
 
-export class CvDropDropDown extends React.Component {
+const StyledHeader = styled.h1`
+  margin: 0 0 3rem 0;
+  font-size: 3rem;
+  font-weight: 700;
+`;
+
+export class CvDropDropDown extends React.Component<any, any> {
   public render() {
+    const { history } = this.props;
     return (
       <Layout>
         <Wrapper>
-          <h2>Drop your CV</h2>
-          <FileDropZone />
+          <StyledHeader>Drop your CV</StyledHeader>
+          <FileDropZone history={history} />
         </Wrapper>
       </Layout>
     );

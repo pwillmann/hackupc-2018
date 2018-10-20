@@ -1,17 +1,27 @@
 import * as React from 'react';
 import Dropzone from 'react-dropzone';
+import styled from 'styled-components';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import axios from 'axios';
+
+const LoadingContainer = styled.div`
+  display: flex;
+  min-height: 30vh;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default class FileDropZone extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-    this.state = { files: [], file: {} };
+    this.state = { files: [], file: {}, loading: false };
   }
 
   public async onDrop(files) {
     this.setState({
-      files,
+      ...this.state,
+      loading: true,
     });
-    console.log(files[0]);
     let file = files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -19,29 +29,39 @@ export default class FileDropZone extends React.Component<any, any> {
       this.setState({
         file: event.target.result,
       });
-      const response = await fetch(
+      const response = await axios.post(
         'https://z641yxvmz0.execute-api.eu-central-1.amazonaws.com/dev/cv',
+        JSON.stringify({
+          file: this.state.file,
+          name: files[0].name,
+          type: files[0].type,
+        }),
         {
-          method: 'POST',
-          mode: 'cors',
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            file: this.state.file,
-            name: files[0].name,
-            type: files[0].type,
-          }),
         }
       );
-      const result = await response.json();
-      console.log(result);
+      console.log(response.data.result);
+      this.setState({
+        ...this.state,
+        loading: false,
+      });
+      this.props.history.push({
+        pathname: '/confirmation',
+        state: { result: response.data.result },
+      });
     };
   }
 
   public render() {
-    return (
+    const { loading } = this.state;
+    return loading ? (
+      <LoadingContainer>
+        <CircularProgress />
+      </LoadingContainer>
+    ) : (
       <section>
         <div>
           <Dropzone onDrop={files => this.onDrop(files)}>
@@ -50,10 +70,6 @@ export default class FileDropZone extends React.Component<any, any> {
             </p>
           </Dropzone>
         </div>
-        <aside>
-          <h2>Dropped files</h2>
-          <ul>{this.state.files.map(file => console.log(file))}</ul>
-        </aside>
       </section>
     );
   }
