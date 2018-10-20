@@ -60,27 +60,33 @@ export class ConfirmationPage extends React.Component<any, any> {
             <FormGroup>
               <TextField
                 id="outlined-name"
-                label="Education"
+                label="Github"
                 style={{ margin: 8 }}
                 margin="normal"
                 variant="outlined"
-                rows={3}
-                rowsMax={5}
-                multiline={true}
-                value={this.props.location.state.result.education}
+                value={
+                  'github.com/' + this.props.location.state.result.github.login
+                }
               />
             </FormGroup>
             <FormGroup>
               <TextField
                 id="outlined-name"
-                label="Experience"
+                label="Homepage"
                 style={{ margin: 8 }}
                 margin="normal"
                 variant="outlined"
-                rows={3}
-                rowsMax={5}
-                multiline={true}
-                value={this.props.location.state.result.experience}
+                value={this.props.location.state.result.github.blog}
+              />
+            </FormGroup>
+            <FormGroup>
+              <TextField
+                id="outlined-name"
+                label="Location"
+                style={{ margin: 8 }}
+                margin="normal"
+                variant="outlined"
+                value={this.props.location.state.result.github.location}
               />
             </FormGroup>
           </form>
