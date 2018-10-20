@@ -17,6 +17,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "cv-parser-multiformats": "^1.1.5",
     "source-map-support": "^0.5.5"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "babel-loader": "^7.1.4",
     "babel-plugin-source-map-support": "^2.0.1",
     "babel-preset-env": "^1.7.0",
+    "copy-webpack-plugin": "^4.5.4",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-friendly-formatter": "^4.0.1",
