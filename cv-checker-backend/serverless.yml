@@ -31,8 +31,11 @@ custom:
       forceExclude:
         - "aws-sdk"
     packager: yarn
+
 package:
   individually: true
+  include:
+    - bin/*
 
 functions:
   hello:
@@ -40,6 +43,13 @@ functions:
     events:
       - http:
           path: hello
+          method: get
+          cors: true
+  cv:
+    handler: handler.cv
+    events:
+      - http:
+          path: cv
           method: get
           cors: true
 # you can add CloudFormation resource templates here

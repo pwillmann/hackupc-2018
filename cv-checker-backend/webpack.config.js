@@ -1,5 +1,6 @@
 const path = require("path");
 const slsw = require("serverless-webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
@@ -16,6 +17,18 @@ module.exports = {
   },
   devtool: "nosources-source-map",
   externals: [nodeExternals()],
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: "bin/",
+        to: "bin/"
+      },
+      {
+        from: "cv/",
+        to: "cv/"
+      }
+    ])
+  ],
   output: {
     libraryTarget: "commonjs2",
     path: path.join(__dirname, ".webpack"),
