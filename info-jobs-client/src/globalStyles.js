@@ -3,15 +3,20 @@ import { lightGrey } from './styles/colors';
 
 export const GlobalStyle = createGlobalStyle`
   html {
-    height: 100%;
+    min-height: 100%;
+    width: 100%;
     font-family: 'Montserrat', sans-serif !important;
   }
   body {
-    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
     background-color: ${lightGrey};
 
     #root {
-      height: 100%;
+      width: 100%;
+      min-height: 100%;
     }
   }
 `;
