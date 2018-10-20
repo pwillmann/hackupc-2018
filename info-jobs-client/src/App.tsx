@@ -1,8 +1,14 @@
 import * as React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Routes } from "./routes";
 
 class App extends React.Component {
   public render() {
-    return <div>HACK UPC !!!</div>;
+    return (
+      <Router>
+        <Routes />
+      </Router>
+    );
   }
 }
 
