@@ -28,14 +28,22 @@ export default class FileDropZone extends React.Component<any, any> {
       this.setState({
         file: event.target.result,
       });
-      const response = await fetch('http://localhost:3000/cv', {
-        method: 'POST',
-        body: JSON.stringify({
-          file: this.state.file,
-          name: files[0].name,
-          type: files[0].type,
-        }),
-      });
+      const response = await fetch(
+        'https://z641yxvmz0.execute-api.eu-central-1.amazonaws.com/dev/cv',
+        {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            file: this.state.file,
+            name: files[0].name,
+            type: files[0].type,
+          }),
+        }
+      );
       const result = await response.json();
       this.setState({
         ...this.state,
