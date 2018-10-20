@@ -8,6 +8,7 @@ import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 import orange from '@material-ui/core/colors/orange';
 //import CodeIcon from '@material-ui/icons/Code';
+import JobOfferCard from './components/JobOfferCard';
 
 const Layout = styled.div`
   width: 100%;
@@ -214,13 +215,52 @@ const BrandLogo = styled.img`
   margin-top: -2rem;
 `;
 
+const LoadingContainer = styled.div`
+  display: flex;
+  min-height: 30vh;
+  align-items: center;
+  justify-content: center;
+`;
+
 export class Feedback extends React.Component<any, any> {
   state = {
-    analysis: null
+    analysis: null,
+    jobOffers: null,
+    isLoading: true
   };
+
+  componentWillMount = () => {
+    this.getInfoJobOffers()
+  }
+
+  getInfoJobOffers = async() => {
+    const clientId = '6a29786cb75a4509874281c77ae4a0ca'
+    const clientSecret = 'Xxj8kcjNKhUUY4ceO3ITyB3tf9V1M/eUAG1FS1Vj45ZZuNrwh3'
+    const authorizationKey = 'Basic ' + btoa(clientId + ':' + clientSecret)
+
+    //const searchParams = new URLSearchParams('format=json');
+
+    const PROXY_URL_PREFIX = 'https://cors-anywhere.herokuapp.com/';
+    const BASE_URL = 'https://api.infojobs.net'
+    const query = '/api/1/offer'
+    const queryUrl = PROXY_URL_PREFIX + BASE_URL + query
+    const response = await fetch(queryUrl, {
+        method: 'GET',
+        headers: {'Authorization': authorizationKey,
+                  'Access-Control-Allow-Origin': '*'
+        }
+    });
+    const jobOffers = await response.json()
+    console.log(jobOffers)
+    await this.setState({ ...this.state, jobOffers });
+    const isLoading = false
+    this.setState({ ...this.state, isLoading })
+    return null
+  }
 
   public render() {
     const { analysis } = this.props.location.state;
+    const { jobOffers, isLoading } = this.state;
     console.log(analysis);
 
     return (
@@ -269,6 +309,14 @@ export class Feedback extends React.Component<any, any> {
           <SignUpTitle>
             Find Matching Jobs
           </SignUpTitle>
+          {isLoading ? (
+              <LoadingContainer>
+                <CircularProgress size={48} />
+              </LoadingContainer>
+            ):(
+              <JobOfferCard jobOffer={jobOffers.offers[0]}/>
+            )
+          }
           <SignUpExplainer>
             Join InfoJobs, one of the most popular career websites on the internet.<br/>
             We will automatically find the best jobs for you. Works like magic.<br/><br/>

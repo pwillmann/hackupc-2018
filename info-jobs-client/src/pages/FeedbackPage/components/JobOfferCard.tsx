@@ -25,7 +25,7 @@ const StyledCard = styled(Card)`
 
 
 const HeaderContainer = styled.div`
-
+  margin: 5px;
 `;
 
 const Title = styled.h2`
