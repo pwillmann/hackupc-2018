@@ -100,7 +100,6 @@ class JobOfferCard extends React.Component<any, any> {
         { croppedOffers.map(o =>
           <StyledCard key={o.id}>
             <StyledCardHeader
-
               title={o.title}
               subheader={o.city}
             />
@@ -128,26 +127,3 @@ class JobOfferCard extends React.Component<any, any> {
 
 
 export default withStyles(styles)(JobOfferCard);
-
-
-
-//
-// export default default withStyles(styles) class JobOfferTemplate extends React.Component {
-//   constructor(props: any) {
-//     super(props);
-//     this.state = { files: [], file: {} };
-//   }
-//
-//   public render() {
-//     return (
-//       <section>
-//         <div>
-//                      <Card>test</Card>
-//           Here we go
-//
-//         </div>
-//
-//       </section>
-//     );
-//   }
-// }
