@@ -4,11 +4,37 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
+import styled from 'styled-components';
 
+const OfferContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const StyledCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+
+  width: 300px;
+  height: 400px;
+
+  margin: 16px;
+`;
+
+const StyledCardHeader = styled(CardHeader)`
+`;
+
+const StyledCardMedia = styled(CardMedia)`
+  height: 60%;
+  width: 100%;
+`;
+
+
+const StyledCardContent = styled(CardContent)`
+
+`;
 
 const styles = theme => ({
   card: {
@@ -43,7 +69,6 @@ class JobOfferCard extends React.Component<any, any> {
 
 
   getImage = async(ImageUrl) => {
-    console.log(ImageUrl)
     const PROXY_URL_PREFIX = 'https://cors-anywhere.herokuapp.com/';
     const queryUrl = PROXY_URL_PREFIX + ImageUrl;
 
@@ -64,42 +89,38 @@ class JobOfferCard extends React.Component<any, any> {
 
   public render() {
     const {jobOffers} = this.props
-    const city = jobOffers.offers[0].city
-    const company = jobOffers.offers[0].author.name
-    const title = jobOffers.offers[0].title
-    console.log(jobOffers.offers[0])
-    const imageUrl = jobOffers.offers[5].author.uri
+    const imageUrl = jobOffers[0].link
     this.getImage(imageUrl)
 
-
+    const croppedOffers = jobOffers.splice(0, 15)
     return (
-      <Card>
-        <CardHeader
-          avatar={
-            <Avatar >
-              R
-            </Avatar>
-          }
 
-          title={title}
-          subheader={company}
-        />
-        <CardMedia
-          component='img'
-          image="https://lh3.googleusercontent.com/Y34tqM_y2bTS5tc48wGWlGkAiMtwdG7q_pwLOFTpNX6uMb5Pvm5sOiDu1v2dmTkFNhq-uE0=s140"
-          title="dsmfsd "
-        />
-        <CardContent>
-          <Typography component="p">
-            {city}
-          </Typography>
-        </CardContent>
-        <CardActions  disableActionSpacing>
+      <OfferContainer>
 
+        { croppedOffers.map(o =>
+          <StyledCard key={o.id}>
+            <StyledCardHeader
 
-        </CardActions>
+              title={o.title}
+              subheader={o.city}
+            />
+            <a href={o.link}>
+              <StyledCardMedia
+                component='img'
+                image="https://e03-expansion.uecdn.es/assets/multimedia/imagenes/2017/11/30/15120715048392.jpg"
+                title={o.city}
+              />
+            </a>
+            <StyledCardContent>
+              <Typography component="p">
+                {o.author.name}
+              </Typography>
+            </StyledCardContent>
 
-      </Card>
+          </StyledCard>
+        )}
+      </OfferContainer>
+
     );
   }
 }
