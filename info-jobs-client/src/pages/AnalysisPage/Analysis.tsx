@@ -49,7 +49,7 @@ class Analysis extends React.Component<any, any> {
   }
 
   loadCodeAnalysis = async username => {
-    const ENDPOINT = `http://18.217.54.163/github-stats/${username}`;
+    const ENDPOINT = `https://hack-upc.kolja.es/github-stats/${username}`;
 
     let response = await fetch(ENDPOINT);
     let analysis = await response.json();
