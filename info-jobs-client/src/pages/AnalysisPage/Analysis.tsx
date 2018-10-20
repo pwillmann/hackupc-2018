@@ -32,7 +32,7 @@ const StyledHeader = styled.h1`
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 3rem !important;
+  margin: 3rem 0 !important;
   float: right;
 `;
 
@@ -46,12 +46,18 @@ export class Analysis extends React.Component<any, any> {
   };
 
   loadCodeAnalysis = async username => {
-    const ENDPOINT = `http://18.217.54.163/github-stats/${username}`;
+    const ENDPOINT = `https://hack-upc.kolja.es/github-stats/${username}`;
 
     let response = await fetch(ENDPOINT);
     let analysis = await response.json();
     this.setState({ ...this.state, analysis });
-    console.log(analysis);
+  };
+
+  onContinueClick = () => {
+    this.props.history.push({
+      pathname: '/results',
+      state: { analysis: this.state.analysis },
+    });
   };
 
   public render() {
@@ -81,7 +87,7 @@ export class Analysis extends React.Component<any, any> {
     return (
       <Layout>
         <Wrapper>
-          <StyledHeader>CV Analysis</StyledHeader>
+          <StyledHeader>GitHub Analysis</StyledHeader>
           {analysis ? (
             <div>
               <DomainSummary
@@ -100,7 +106,13 @@ export class Analysis extends React.Component<any, any> {
               <CircularProgress size={48} />
             </LoadingContainer>
           )}
-          <StyledButton size="large" variant="outlined" color="secondary">
+          <StyledButton
+            size="large"
+            variant="outlined"
+            color="secondary"
+            disabled={analysis === null}
+            onClick={this.onContinueClick}
+          >
             Continue
           </StyledButton>
         </Wrapper>
