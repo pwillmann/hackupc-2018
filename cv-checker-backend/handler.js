@@ -2,6 +2,7 @@
 const ResumeParser = require("cv-parser-multiformats");
 const pdf2Text = require("pdf2text");
 const fs = require("fs");
+const rimraf = require("rimraf");
 
 if (process.env.LAMBDA_TASK_ROOT) {
   process.env.PATH = `${process.env.PATH}:${process.env.LAMBDA_TASK_ROOT}/bin`;
@@ -24,12 +25,15 @@ module.exports.hello = async (event, context) => {
   };
 };
 
+const BASE_PATH = "/tmp";
+
 module.exports.parsecv = async (event, context) => {
   console.log("start parsing");
   console.log("event: ", event);
   const file = JSON.parse(event.body);
   console.log("file:", file.file);
   let rawBase64String = file.file.split(";base64,").pop();
+<<<<<<< HEAD
   console.log("raw file:", rawBase64String);
   fs.writeFileSync("/tmp/cv.pdf", rawBase64String, { encoding: "base64" });
 
@@ -38,20 +42,39 @@ module.exports.parsecv = async (event, context) => {
   fs.writeFileSync("/tmp/cv.txt", text);
 
   const result = await ResumeParser.parseResumeFile("/tmp/cv.txt", "/tmp/") // input file, output dir
+=======
+  const FILE_NAME = `cv_${Date.now()}`;
+  console.log("raw file:", rawBase64String);
+  fs.writeFileSync(`${BASE_PATH}/${FILE_NAME}.pdf`, rawBase64String, {
+    encoding: "base64"
+  });
+
+  const pages = await pdf2Text(`${BASE_PATH}/${FILE_NAME}.pdf`);
+  const text = pages.reduce((acc, val) => acc.concat(val), []).join(" ");
+  fs.writeFileSync(`${BASE_PATH}/${FILE_NAME}.txt`, text);
+
+  const result = await ResumeParser.parseResumeFile(
+    `${BASE_PATH}/${FILE_NAME}.txt`,
+    `${BASE_PATH}`
+  ) // input file, output dir
+>>>>>>> c25859ff943a79e48df8ad6d8d3852a9cd9a1885
     .then(file => {
       console.log("Yay! " + file);
 
       console.log("\n *START* \n");
-      var content = fs.readFileSync("/tmp/cv.txt.json");
+      var content = fs.readFileSync(`${BASE_PATH}/${FILE_NAME}.txt.json`);
       console.log("Output Content : \n" + content);
       var jsonContent = JSON.parse(content);
       console.log("Name:", jsonContent.name);
       console.log("Email:", jsonContent.email);
       console.log("\n *EXIT* \n");
+
+      rimraf.sync(`${BASE_PATH}/`);
       return jsonContent;
     })
     .catch(error => {
       console.error(error);
+      rimraf.sync(`${BASE_PATH}/`);
       return error;
     });
   return {
