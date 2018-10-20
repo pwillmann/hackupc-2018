@@ -1,7 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Summary from './components/Summary';
+import DomainSummary from './components/DomainSummary';
+import Button from '@material-ui/core/Button';
+import red from '@material-ui/core/colors/red';
+import green from '@material-ui/core/colors/green';
 
 const Layout = styled.div`
   width: 100%;
@@ -11,7 +14,7 @@ const Layout = styled.div`
 `;
 
 const Wrapper = styled.div`
-  max-width: 1280px;
+  width: 1280px;
   padding: 80px;
 `;
 
@@ -20,6 +23,17 @@ const LoadingContainer = styled.div`
   min-height: 30vh;
   align-items: center;
   justify-content: center;
+`;
+
+const StyledHeader = styled.h1`
+  margin: 0 0 3rem 0;
+  font-size: 3rem;
+  font-weight: 700;
+`;
+
+const StyledButton = styled(Button)`
+  margin-top: 3rem !important;
+  float: right;
 `;
 
 export class Analysis extends React.Component {
@@ -45,18 +59,34 @@ export class Analysis extends React.Component {
   public render() {
     const { analysis } = this.state;
 
+    let activity : { name: string, value: string }[] = [];
+    let popularity : { name: string, value: string }[] = [];
+    if (analysis !== null) {
+      activity = [
+        { name: 'Comments', value: analysis['activity']['tabs']['comments'] },
+        { name: 'Pull Requests', value: analysis['activity']['tabs']['pull_request'] }
+      ];
+      popularity = [
+        { name: 'Stars', value: analysis['popularity']['tabs']['stars'] },
+        { name: 'Followers', value: analysis['popularity']['tabs']['followers'] }
+      ];
+    }
+
     return (
       <Layout>
         <Wrapper>
-          <h1>CV Analysis</h1>
-      { analysis ? 
-          <Summary data={analysis} />
-        :
-          <LoadingContainer>
-            <CircularProgress size={48} />
-          </LoadingContainer>
-      }
-
+          <StyledHeader>CV Analysis</StyledHeader>
+          { analysis ? 
+            <div>
+              <DomainSummary title='Activity' titleColor={red[500]} data={activity} />
+              <DomainSummary title='Popularity' titleColor={green[500]} data={popularity} />
+            </div>
+            :
+              <LoadingContainer>
+                <CircularProgress size={48} />
+              </LoadingContainer>
+          }
+          <StyledButton size='large' variant="outlined" color="secondary">Continue</StyledButton>
         </Wrapper>
       </Layout>
     );
