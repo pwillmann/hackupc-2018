@@ -5,6 +5,7 @@ import DomainSummary from './components/DomainSummary';
 import Button from '@material-ui/core/Button';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
+import { withRouter } from "react-router-dom";
 
 const Layout = styled.div`
   width: 100%;
@@ -32,18 +33,18 @@ const StyledHeader = styled.h1`
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 3rem !important;
+  margin: 3rem 0!important;
   float: right;
 `;
 
-export class Analysis extends React.Component {
+class Analysis extends React.Component<any, any> {
   state = {
     analysis: null
   };
 
   componentWillMount = () => {
     //const { username } = this.props;
-    const username = 'kolja-esders';
+    const username = 'purdoo';
     this.loadCodeAnalysis(username);
   }
 
@@ -53,7 +54,13 @@ export class Analysis extends React.Component {
     let response = await fetch(ENDPOINT);
     let analysis = await response.json();
     this.setState({ ...this.state, analysis });
-    console.log(analysis);
+  }
+
+  onContinueClick = () => {
+    this.props.history.push({
+      pathname: '/results',
+      state: { analysis: this.state.analysis }
+    });
   }
 
   public render() {
@@ -75,7 +82,7 @@ export class Analysis extends React.Component {
     return (
       <Layout>
         <Wrapper>
-          <StyledHeader>CV Analysis</StyledHeader>
+          <StyledHeader>GitHub Analysis</StyledHeader>
           { analysis ? 
             <div>
               <DomainSummary title='Activity' titleColor={red[500]} data={activity} />
@@ -86,9 +93,11 @@ export class Analysis extends React.Component {
                 <CircularProgress size={48} />
               </LoadingContainer>
           }
-          <StyledButton size='large' variant="outlined" color="secondary">Continue</StyledButton>
+          <StyledButton size='large' variant="outlined" color="secondary" disabled={analysis === null} onClick={this.onContinueClick}>Continue</StyledButton>
         </Wrapper>
       </Layout>
     );
   }
 }
+
+export default withRouter(Analysis);
