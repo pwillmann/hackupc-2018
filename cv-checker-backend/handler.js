@@ -22,12 +22,18 @@ module.exports.hello = async (event, context) => {
 };
 
 module.exports.cv = async (event, context) => {
-  const result = await ResumeParser.parseResumeFile("./cv/cv_en.pdf", "./cv") // input file, output dir
+  const file = JSON.parse(event.body);
+  console.log(file.file);
+  let rawBase64String = file.file.split(";base64,").pop();
+  console.log(rawBase64String);
+  fs.writeFileSync("./cv/cv.pdf", rawBase64String, { encoding: "base64" });
+
+  const result = await ResumeParser.parseResumeFile("./cv/cv.pdf", "./cv") // input file, output dir
     .then(file => {
       console.log("Yay! " + file);
 
       console.log("\n *START* \n");
-      var content = fs.readFileSync("./cv/cv_en.pdf.json");
+      var content = fs.readFileSync("./cv/cv.pdf.json");
       console.log("Output Content : \n" + content);
       var jsonContent = JSON.parse(content);
       console.log("Name:", jsonContent.name);

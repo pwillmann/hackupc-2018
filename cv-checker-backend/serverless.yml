@@ -22,7 +22,7 @@ provider:
   runtime: nodejs8.10
   profile: hackupc-serverless
   region: eu-central-1
-  stage: dev
+  stage: felix
 
 custom:
   webpack:
@@ -50,7 +50,7 @@ functions:
     events:
       - http:
           path: cv
-          method: get
+          method: post
           cors: true
 # you can add CloudFormation resource templates here
 #resources:

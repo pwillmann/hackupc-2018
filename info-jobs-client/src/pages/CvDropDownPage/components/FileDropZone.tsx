@@ -4,13 +4,32 @@ import Dropzone from 'react-dropzone';
 export default class FileDropZone extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-    this.state = { files: [] };
+    this.state = { files: [], file: {} };
   }
 
-  public onDrop(files) {
+  public async onDrop(files) {
     this.setState({
       files,
     });
+    console.log(files[0]);
+    let file = files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async (event: any) => {
+      this.setState({
+        file: event.target.result,
+      });
+      const response = await fetch('http://localhost:3000/cv', {
+        method: 'POST',
+        body: JSON.stringify({
+          file: this.state.file,
+          name: files[0].name,
+          type: files[0].type,
+        }),
+      });
+      const result = await response.json();
+      console.log(result);
+    };
   }
 
   public render() {
