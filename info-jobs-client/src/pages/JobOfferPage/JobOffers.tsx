@@ -62,7 +62,7 @@ export class JobOffers extends React.Component {
           ) : (
             <div>
               <h2>Your Job Offers</h2>
-              <JobOfferCard jobOffers={jobOffers.offers}/>
+              <JobOfferCard jobOffer={jobOffers.offers[0]}/>
             </div>
           )
           }
