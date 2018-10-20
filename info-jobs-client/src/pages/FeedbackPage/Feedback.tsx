@@ -63,7 +63,8 @@ const StyledHeader = styled.h1`
 `;
 
 const SignUpButton = styled.button`
-  font-size: 1.6rem;
+  font-size: 1.2rem;
+  font-weight: 500;
   padding: 2rem;
   margin: 6rem auto 0 auto;
   outline: 0;
