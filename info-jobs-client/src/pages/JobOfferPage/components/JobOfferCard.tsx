@@ -65,6 +65,7 @@ class JobOfferCard extends React.Component<any, any> {
   public render() {
     const {jobOffers} = this.props
     const city = jobOffers.offers[0].city
+    const company = jobOffers.offers[0].author.name
     const title = jobOffers.offers[0].title
     console.log(jobOffers.offers[0])
     const imageUrl = jobOffers.offers[5].author.uri
@@ -75,13 +76,13 @@ class JobOfferCard extends React.Component<any, any> {
       <Card>
         <CardHeader
           avatar={
-            <Avatar aria-label="Recipe">
+            <Avatar >
               R
             </Avatar>
           }
 
           title={title}
-          subheader={city}
+          subheader={company}
         />
         <CardMedia
           component='img'
@@ -90,7 +91,7 @@ class JobOfferCard extends React.Component<any, any> {
         />
         <CardContent>
           <Typography component="p">
-            jfnkdsmflk klkm l
+            {city}
           </Typography>
         </CardContent>
         <CardActions  disableActionSpacing>
