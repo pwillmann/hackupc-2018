@@ -1,3 +1,4 @@
 import { Analysis } from './Analysis';
+import { withRouter } from 'react-router-dom';
 
-export default Analysis;
+export default withRouter(Analysis as any);

@@ -36,16 +36,14 @@ const StyledButton = styled(Button)`
   float: right;
 `;
 
-export class Analysis extends React.Component {
+export class Analysis extends React.Component<any, any> {
   state = {
-    analysis: null
+    analysis: null,
   };
 
   componentWillMount = () => {
-    //const { username } = this.props;
-    const username = 'kolja-esders';
-    this.loadCodeAnalysis(username);
-  }
+    this.loadCodeAnalysis(this.props.location.state.data.github.login);
+  };
 
   loadCodeAnalysis = async username => {
     const ENDPOINT = `http://18.217.54.163/github-stats/${username}`;
@@ -54,21 +52,29 @@ export class Analysis extends React.Component {
     let analysis = await response.json();
     this.setState({ ...this.state, analysis });
     console.log(analysis);
-  }
+  };
 
   public render() {
     const { analysis } = this.state;
+    const { history } = this.props;
+    console.log(history);
 
-    let activity : { name: string, value: string }[] = [];
-    let popularity : { name: string, value: string }[] = [];
+    let activity: { name: string; value: string }[] = [];
+    let popularity: { name: string; value: string }[] = [];
     if (analysis !== null) {
       activity = [
         { name: 'Comments', value: analysis['activity']['tabs']['comments'] },
-        { name: 'Pull Requests', value: analysis['activity']['tabs']['pull_request'] }
+        {
+          name: 'Pull Requests',
+          value: analysis['activity']['tabs']['pull_request'],
+        },
       ];
       popularity = [
         { name: 'Stars', value: analysis['popularity']['tabs']['stars'] },
-        { name: 'Followers', value: analysis['popularity']['tabs']['followers'] }
+        {
+          name: 'Followers',
+          value: analysis['popularity']['tabs']['followers'],
+        },
       ];
     }
 
@@ -76,17 +82,27 @@ export class Analysis extends React.Component {
       <Layout>
         <Wrapper>
           <StyledHeader>CV Analysis</StyledHeader>
-          { analysis ? 
+          {analysis ? (
             <div>
-              <DomainSummary title='Activity' titleColor={red[500]} data={activity} />
-              <DomainSummary title='Popularity' titleColor={green[500]} data={popularity} />
+              <DomainSummary
+                title="Activity"
+                titleColor={red[500]}
+                data={activity}
+              />
+              <DomainSummary
+                title="Popularity"
+                titleColor={green[500]}
+                data={popularity}
+              />
             </div>
-            :
-              <LoadingContainer>
-                <CircularProgress size={48} />
-              </LoadingContainer>
-          }
-          <StyledButton size='large' variant="outlined" color="secondary">Continue</StyledButton>
+          ) : (
+            <LoadingContainer>
+              <CircularProgress size={48} />
+            </LoadingContainer>
+          )}
+          <StyledButton size="large" variant="outlined" color="secondary">
+            Continue
+          </StyledButton>
         </Wrapper>
       </Layout>
     );
