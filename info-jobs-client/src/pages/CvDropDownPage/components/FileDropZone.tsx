@@ -2,6 +2,7 @@ import * as React from 'react';
 import Dropzone from 'react-dropzone';
 import styled from 'styled-components';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import axios from 'axios';
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -28,32 +29,29 @@ export default class FileDropZone extends React.Component<any, any> {
       this.setState({
         file: event.target.result,
       });
-      const response = await fetch(
+      const response = await axios.post(
         'https://z641yxvmz0.execute-api.eu-central-1.amazonaws.com/dev/cv',
+        JSON.stringify({
+          file: this.state.file,
+          name: files[0].name,
+          type: files[0].type,
+        }),
         {
-          method: 'POST',
-          mode: 'cors',
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            file: this.state.file,
-            name: files[0].name,
-            type: files[0].type,
-          }),
         }
       );
-      const result = await response.json();
+      console.log(response.data.result);
       this.setState({
         ...this.state,
         loading: false,
       });
       this.props.history.push({
         pathname: '/confirmation',
-        state: { result },
+        state: { result: response.data.result },
       });
-      console.log(result);
     };
   }
 

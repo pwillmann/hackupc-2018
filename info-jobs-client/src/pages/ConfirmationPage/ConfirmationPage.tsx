@@ -21,11 +21,6 @@ const StyledHeader = styled.h1`
   font-weight: 700;
 `;
 
-const StyledSubHeader = styled.h2`
-  margin: 0 0 3rem 0;
-  font-weight: 700;
-`;
-
 export class ConfirmationPage extends React.Component<any, any> {
   public render() {
     console.log(this.props);
@@ -41,9 +36,7 @@ export class ConfirmationPage extends React.Component<any, any> {
                 margin="normal"
                 style={{ margin: 8 }}
                 variant="outlined"
-                value={
-                  this.props.location.state.result.result.name.split(' ')[0]
-                }
+                value={this.props.location.state.result.name.split(' ')[0]}
               />
               <TextField
                 id="outlined-name"
@@ -51,9 +44,7 @@ export class ConfirmationPage extends React.Component<any, any> {
                 style={{ margin: 8 }}
                 margin="normal"
                 variant="outlined"
-                value={
-                  this.props.location.state.result.result.name.split(' ')[1]
-                }
+                value={this.props.location.state.result.name.split(' ')[1]}
               />
             </FormGroup>
             <FormGroup>
@@ -63,7 +54,7 @@ export class ConfirmationPage extends React.Component<any, any> {
                 style={{ margin: 8 }}
                 margin="normal"
                 variant="outlined"
-                value={this.props.location.state.result.result.email}
+                value={this.props.location.state.result.email}
               />
             </FormGroup>
             <FormGroup>
@@ -76,7 +67,7 @@ export class ConfirmationPage extends React.Component<any, any> {
                 rows={3}
                 rowsMax={5}
                 multiline={true}
-                value={this.props.location.state.result.result.education}
+                value={this.props.location.state.result.education}
               />
             </FormGroup>
             <FormGroup>
@@ -89,19 +80,9 @@ export class ConfirmationPage extends React.Component<any, any> {
                 rows={3}
                 rowsMax={5}
                 multiline={true}
-                value={this.props.location.state.result.result.experience}
+                value={this.props.location.state.result.experience}
               />
             </FormGroup>
-            <StyledSubHeader>
-              Languages{' '}
-              <ul>
-                {this.props.location.state.result.result.languages
-                  .split('\n')
-                  .map(language => (
-                    <li>{language}</li>
-                  ))}
-              </ul>
-            </StyledSubHeader>
           </form>
         </Wrapper>
       </Layout>
