@@ -19,7 +19,7 @@ module.exports.hello = async (event, context) => {
   };
 };
 
-module.exports.cv = async (event, context) => {
+module.exports.parsecv = async (event, context) => {
   const file = JSON.parse(event.body);
   console.log(file.file);
   let rawBase64String = file.file.split(";base64,").pop();
@@ -48,6 +48,9 @@ module.exports.cv = async (event, context) => {
     });
   return {
     statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*" // Required for CORS support to work
+    },
     body: JSON.stringify({
       result
     })
