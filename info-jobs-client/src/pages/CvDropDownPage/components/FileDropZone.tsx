@@ -64,7 +64,10 @@ export default class FileDropZone extends React.Component<any, any> {
     ) : (
       <section>
         <div>
-          <Dropzone onDrop={files => this.onDrop(files)}>
+          <Dropzone
+            onDrop={files => this.onDrop(files)}
+            accept="application/pdf"
+          >
             <p>
               Try dropping some files here, or click to select files to upload.
             </p>
