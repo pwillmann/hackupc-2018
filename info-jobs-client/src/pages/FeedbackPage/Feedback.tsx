@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 
 const SignUpWrapper = styled.div`
   width: 1280px;
+  width: 100%;
   padding: 20px 80px;
   //background-color: #167DB7;
   background-color: #ff3d00;
@@ -38,9 +39,9 @@ const SignUpWrapper = styled.div`
 const SignUpWrapperBackground = styled.div`
   overflow: hidden;
   position: absolute;
-  width: 3000px;
-  margin-left: -500px;
-  height: 200px;
+  width: 8000px;
+  margin-left: 2000px;
+  height: 400px;
   //background-color: #167DB7;
   background-color: #ff3d00;
   transform-origin: 0;
