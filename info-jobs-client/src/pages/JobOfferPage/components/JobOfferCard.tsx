@@ -23,7 +23,21 @@ const StyledCard = styled(Card)`
   margin: 16px;
 `;
 
+
+const HeaderContainer = styled.div`
+
+`;
+
+const Title = styled.h2`
+  color: black;
+`;
+
+const Link = styled.a`
+  text-decoration: none;
+`;
+
 const StyledCardHeader = styled(CardHeader)`
+
 `;
 
 const StyledCardMedia = styled(CardMedia)`
@@ -88,36 +102,40 @@ class JobOfferCard extends React.Component<any, any> {
 
 
   public render() {
-    const {jobOffers} = this.props
-    const imageUrl = jobOffers[0].link
+    const { jobOffer } = this.props
+    const imageUrl = jobOffer.link
     this.getImage(imageUrl)
 
-    const croppedOffers = jobOffers.splice(0, 15)
     return (
 
       <OfferContainer>
 
-        { croppedOffers.map(o =>
-          <StyledCard key={o.id}>
-            <StyledCardHeader
-              title={o.title}
-              subheader={o.city}
-            />
-            <a href={o.link}>
-              <StyledCardMedia
-                component='img'
-                image="https://e03-expansion.uecdn.es/assets/multimedia/imagenes/2017/11/30/15120715048392.jpg"
-                title={o.city}
-              />
-            </a>
-            <StyledCardContent>
-              <Typography component="p">
-                {o.author.name}
-              </Typography>
-            </StyledCardContent>
+            <Link href={jobOffer.link} key={jobOffer.id}>
+              <StyledCard>
+                <StyledCardMedia
+                  component='img'
+                  image="https://e03-expansion.uecdn.es/assets/multimedia/imagenes/2017/11/30/15120715048392.jpg"
+                  title={jobOffer.city}
+                />
+                <HeaderContainer>
+                  <Title>
+                    {jobOffer.title}
+                  </Title>
+                </HeaderContainer>
 
-          </StyledCard>
-        )}
+                <StyledCardHeader
+                  title={jobOffer.title}
+                  subheader={jobOffer.city}
+                />
+
+                <StyledCardContent>
+                  <Typography component="p">
+                    {jobOffer.author.name}
+                  </Typography>
+                </StyledCardContent>
+
+              </StyledCard>
+          </Link>
       </OfferContainer>
 
     );
