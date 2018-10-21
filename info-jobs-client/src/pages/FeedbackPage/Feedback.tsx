@@ -4,9 +4,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 //import DomainSummary from './components/DomainSummary';
 //import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 import orange from '@material-ui/core/colors/orange';
+import red from '@material-ui/core/colors/red';
 //import CodeIcon from '@material-ui/icons/Code';
 import JobOfferCard from './components/JobOfferCard';
 
@@ -24,24 +24,22 @@ const Wrapper = styled.div`
 `;
 
 const SignUpWrapper = styled.div`
-  width: 1280px;
-  padding: 20px 80px;
-  //background-color: #167DB7;
+  width: 100%;
+  //padding: 20px 80px;
   background-color: #ff3d00;
-  //overflow: hidden!important;
   margin-top: 150px;
   min-height: 600px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  //display: flex;
+  //align-items: center;
+  //flex-direction: column;
 `;
 
 const SignUpWrapperBackground = styled.div`
   overflow: hidden;
   position: absolute;
-  width: 3000px;
-  margin-left: -500px;
-  height: 200px;
+  width: 8000px;
+  margin-left: 2000px;
+  height: 400px;
   //background-color: #167DB7;
   background-color: #ff3d00;
   transform-origin: 0;
@@ -49,13 +47,6 @@ const SignUpWrapperBackground = styled.div`
   transform: skewY(-6deg);
   z-index: -1;
 `;
-
-//const LoadingContainer = styled.div`
-  //display: flex;
-  //min-height: 30vh;
-  //align-items: center;
-  //justify-content: center;
-//`;
 
 const StyledHeader = styled.h1`
   margin: 0 0 3rem 0;
@@ -67,11 +58,10 @@ const SignUpButton = styled.button`
   font-size: 1.2rem;
   font-weight: 500;
   padding: 2rem;
-  margin: 6rem auto 0 auto;
+  margin: 6rem auto 8rem auto;
   outline: 0;
   border: 0;
   border-radius: 3px;
-  //background-color: ${red.A700};
   background-color: #167DB7;
   color: #fff;
   user-select: none;
@@ -172,6 +162,10 @@ const TodoContainer = styled.div`
   margin-top: 3rem;
 `;
 
+const LanguagesContainer = styled.div`
+  margin-top: 3rem;
+`;
+
 const Todo = styled.div`
   font-size: 1rem;
   line-height: 1.4rem;
@@ -190,12 +184,20 @@ const ProgrammingLanguage = styled.div`
   line-height: 1.4rem;
   color: #333;
   background-color: #fafafa;
-  padding: .2rem .9rem .2rem .4rem;
+  padding: 1.1rem;
   border-radius: 3px;
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.02);
+`;
+
+const SignUpInner = styled.div`
+  width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const SignUpTitle = styled.h1`
@@ -224,7 +226,7 @@ const LoadingContainer = styled.div`
 export class Feedback extends React.Component<any, any> {
   state = {
     analysis: null,
-    jobOffers: null,
+    selectedJobOffers: null,
     isLoading: true
   };
 
@@ -251,7 +253,8 @@ export class Feedback extends React.Component<any, any> {
     });
     const jobOffers = await response.json()
     console.log(jobOffers)
-    await this.setState({ ...this.state, jobOffers });
+    const selectedJobOffers = jobOffers.offers.splice(0,5)
+    await this.setState({ ...this.state, selectedJobOffers });
     const isLoading = false
     this.setState({ ...this.state, isLoading })
     return null
@@ -259,8 +262,12 @@ export class Feedback extends React.Component<any, any> {
 
   public render() {
     const { analysis } = this.props.location.state;
-    const { jobOffers, isLoading } = this.state;
-    console.log(analysis);
+
+    const { selectedJobOffers, isLoading } = this.state;
+
+    let codeColor = analysis.quality.value > 5 ? green[500] : orange[500];
+
+    const colors = [green[50], orange[50], red[50]];
 
     return (
       <Layout>
@@ -291,39 +298,49 @@ export class Feedback extends React.Component<any, any> {
             </ResumeResults>
             <CodeResults>
               <ResultsHeader>Code</ResultsHeader>
-              <Score value={90} style={{ color: green[500] }} thickness={5} variant="static">
+              <Score value={analysis.quality.value * 10} style={{ color: codeColor }} thickness={5} variant="static">
               </Score>
               <GoodScoreInner>
-                9 / 10
+                { analysis.quality.value } / 10
               </GoodScoreInner>
-              <ProgrammingLanguage>
-                JS ES6
-              </ProgrammingLanguage>
+              <LanguagesContainer>
+                { analysis.quality.tabs.languages.map(l =>
+                  <ProgrammingLanguage style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}>
+                    { l }
+                  </ProgrammingLanguage>
+                )}
+              </LanguagesContainer>
             </CodeResults>
           </Content>
         </Wrapper>
         <SignUpWrapper>
-          <SignUpWrapperBackground  />
-          <BrandLogo src='/ij-logo.svg' />
-          <SignUpTitle>
-            Find Matching Jobs
-          </SignUpTitle>
-          {isLoading ? (
-              <LoadingContainer>
-                <CircularProgress size={48} />
-              </LoadingContainer>
-            ):(
-              <JobOfferCard jobOffer={jobOffers.offers[0]}/>
-            )
-          }
-          <SignUpExplainer>
-            Join InfoJobs, one of the most popular career websites on the internet.<br/>
-            We will automatically find the best jobs for you. Works like magic.<br/><br/>
-            Click below to create an InfoJobs account based on your resume.<br/>
-          </SignUpExplainer>
-          <SignUpButton>
-            Create InfoJobs Account
-          </SignUpButton>
+          <SignUpInner>
+            <SignUpWrapperBackground  />
+            <BrandLogo src='/ij-logo.svg' />
+            <SignUpTitle>
+              Find Matching Jobs
+            </SignUpTitle>
+            {isLoading ? (
+                <LoadingContainer>
+                  <CircularProgress size={48} />
+                </LoadingContainer>
+              ):(
+                <div>
+                { selectedJobOffers.map(o =>
+                    <JobOfferCard jobOffer={o} key={o.id}/>
+                )},
+                </div>
+              )
+            }
+            <SignUpExplainer>
+              Join InfoJobs, one of the most popular career websites on the internet.<br/>
+              We will automatically find the best jobs for you. Works like magic.<br/><br/>
+              Click below to create an InfoJobs account based on your resume.<br/>
+            </SignUpExplainer>
+            <SignUpButton>
+              Create InfoJobs Account
+            </SignUpButton>
+          </SignUpInner>
         </SignUpWrapper>
       </Layout>
     );
