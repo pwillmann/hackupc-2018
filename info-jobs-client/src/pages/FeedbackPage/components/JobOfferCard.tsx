@@ -43,7 +43,11 @@ const OfferContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const HeaderContainer = styled.div`
+const ContentContainer = styled.div`
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 0 1.5rem 0 1.5rem;
 `;
 
@@ -149,12 +153,13 @@ class JobOfferCard extends React.Component<any, any> {
                 <JobOfferContainer>
                     <CityImg src={jobOffer.imgSrc}/>
 
-                    <HeaderContainer>
+                    <ContentContainer>
                       <Title>{jobOffer.title}</Title>
 
                       <City>{jobOffer.city}</City>
+
                       <Company>{jobOffer.author.name}</Company>
-                    </HeaderContainer>
+                    </ContentContainer>
 
                 </JobOfferContainer>
               </Content>
