@@ -3,11 +3,17 @@ import Dropzone from 'react-dropzone';
 import styled from 'styled-components';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import './index.css';
 
 const LoadingContainer = styled.div`
   display: flex;
   min-height: 30vh;
   align-items: center;
+  justify-content: center;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
   justify-content: center;
 `;
 
@@ -63,16 +69,15 @@ export default class FileDropZone extends React.Component<any, any> {
       </LoadingContainer>
     ) : (
       <section>
-        <div>
+        <Wrapper>
           <Dropzone
+            className="dropzone"
             onDrop={files => this.onDrop(files)}
             accept="application/pdf"
           >
-            <p>
-              Try dropping some files here, or click to select files to upload.
-            </p>
+            <p>Drop your resume here.</p>
           </Dropzone>
-        </div>
+        </Wrapper>
       </section>
     );
   }

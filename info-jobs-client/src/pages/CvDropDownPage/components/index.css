@@ -1,0 +1,14 @@
+.dropzone {
+  width: 600px;
+  height: 400px;
+  border: 1px solid black;
+  border-style: dashed;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropzone:hover {
+  cursor: pointer;
+}
