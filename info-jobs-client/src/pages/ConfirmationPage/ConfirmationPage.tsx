@@ -29,22 +29,44 @@ const StyledButton = styled(Button)`
 
 export class ConfirmationPage extends React.Component<any, any> {
   state = {
-    cvData: {},
+    firstName: '',
+    lastName: '',
+    email: '',
+    github: {
+      login: '',
+      blog: '',
+      location: '',
+    },
   };
 
   public componentDidMount() {
     const { location } = this.props;
-    console.log(location);
     this.setState(
       {
-        ...this.state,
-        cvData: {
-          ...location.state.result,
-        },
+        firstName: this.props.location.state.result.name.split(' ')[0],
+        lastName: this.props.location.state.result.name.split(' ')[1],
+        ...location.state.result,
       },
       () => console.log(this.state)
     );
   }
+
+  public onChange = name => event => {
+    this.setState({
+      ...this.state,
+      [name]: event.target.value,
+    });
+  };
+
+  public onChangeGithub = name => event => {
+    this.setState({
+      ...this.state,
+      github: {
+        ...this.state.github,
+        [name]: event.target.value,
+      },
+    });
+  };
 
   public render() {
     const { history } = this.props;
@@ -62,7 +84,8 @@ export class ConfirmationPage extends React.Component<any, any> {
                 name="firstName"
                 style={{ margin: 8 }}
                 variant="outlined"
-                value={this.props.location.state.result.name.split(' ')[0]}
+                onChange={this.onChange('firstName')}
+                value={this.state.firstName}
               />
               <TextField
                 id="outlined-name"
@@ -70,8 +93,9 @@ export class ConfirmationPage extends React.Component<any, any> {
                 name="lastname"
                 style={{ margin: 8 }}
                 margin="normal"
+                onChange={this.onChange('lastName')}
                 variant="outlined"
-                value={this.props.location.state.result.name.split(' ')[1]}
+                value={this.state.lastName}
               />
             </FormGroup>
             <FormGroup>
@@ -82,7 +106,8 @@ export class ConfirmationPage extends React.Component<any, any> {
                 style={{ margin: 8 }}
                 margin="normal"
                 variant="outlined"
-                value={this.props.location.state.result.email}
+                onChange={this.onChange('email')}
+                value={this.state.email}
               />
             </FormGroup>
             <FormGroup>
@@ -93,9 +118,8 @@ export class ConfirmationPage extends React.Component<any, any> {
                 style={{ margin: 8 }}
                 margin="normal"
                 variant="outlined"
-                value={
-                  'github.com/' + this.props.location.state.result.github.login
-                }
+                onChange={this.onChangeGithub('login')}
+                value={this.state.github.login}
               />
             </FormGroup>
             <FormGroup>
@@ -105,7 +129,8 @@ export class ConfirmationPage extends React.Component<any, any> {
                 style={{ margin: 8 }}
                 margin="normal"
                 variant="outlined"
-                value={this.props.location.state.result.github.blog}
+                onChange={this.onChangeGithub('blog')}
+                value={this.state.github.blog}
               />
             </FormGroup>
             <FormGroup>
@@ -115,7 +140,8 @@ export class ConfirmationPage extends React.Component<any, any> {
                 style={{ margin: 8 }}
                 margin="normal"
                 variant="outlined"
-                value={this.props.location.state.result.github.location}
+                onChange={this.onChangeGithub('location')}
+                value={this.state.github.location}
               />
             </FormGroup>
           </form>
@@ -126,7 +152,7 @@ export class ConfirmationPage extends React.Component<any, any> {
             onClick={() =>
               history.push({
                 pathname: '/analysis',
-                state: { data: this.state.cvData },
+                state: { data: this.state },
               })
             }
           >
