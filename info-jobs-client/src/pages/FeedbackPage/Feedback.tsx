@@ -184,7 +184,7 @@ const ProgrammingLanguage = styled.div`
   line-height: 1.4rem;
   color: #333;
   background-color: #fafafa;
-  padding: 1.1rem;
+  padding: 1rem;
   border-radius: 3px;
   display: flex;
   align-items: center;
