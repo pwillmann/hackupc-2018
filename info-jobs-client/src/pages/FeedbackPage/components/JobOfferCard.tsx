@@ -8,6 +8,7 @@ import styled from 'styled-components';
 const Content = styled.div`
   display: flex;
   flex-direction: row;
+  height: 500px!important;
 `;
 
 const Offer = styled.div`
@@ -34,6 +35,7 @@ const Offer = styled.div`
 `;
 
 const JobOfferContainer = styled(Offer)`
+
 `;
 
 const OfferContainer = styled.div`
@@ -45,16 +47,28 @@ const HeaderContainer = styled.div`
 
 `;
 
-const Title = styled.h2`
-  color: black;
+const Title = styled.h1`
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  margin: 2rem 0 2rem 0;
 `;
 
-const City = styled.h5`
-  color: black;
+const City = styled.h1`
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+  margin: 0 0 2rem 0;
 `;
 
-const Company = styled.h4`
-  color: black;
+const Company = styled.h1`
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+  margin: 0 0 2rem 0;
 `;
 
 const Link = styled.a`
