@@ -223,10 +223,17 @@ const LoadingContainer = styled.div`
   justify-content: center;
 `;
 
+const JobOfferWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  padding: 16px;
+`;
+
 export class Feedback extends React.Component<any, any> {
   state = {
     analysis: null,
-    jobOffers: null,
+    selectedJobOffers: null,
     isLoading: true
   };
 
@@ -253,7 +260,8 @@ export class Feedback extends React.Component<any, any> {
     });
     const jobOffers = await response.json()
     console.log(jobOffers)
-    await this.setState({ ...this.state, jobOffers });
+    const selectedJobOffers = jobOffers.offers.splice(0,4)
+    await this.setState({ ...this.state, selectedJobOffers });
     const isLoading = false
     this.setState({ ...this.state, isLoading })
     return null
@@ -261,7 +269,9 @@ export class Feedback extends React.Component<any, any> {
 
   public render() {
     const { analysis } = this.props.location.state;
-    const { jobOffers, isLoading } = this.state;
+
+    const { selectedJobOffers, isLoading } = this.state;
+
     let codeColor = analysis.quality.value > 5 ? green[500] : orange[500];
 
     const colors = [green[50], orange[50], red[50]];
@@ -301,7 +311,7 @@ export class Feedback extends React.Component<any, any> {
                 { analysis.quality.value } / 10
               </GoodScoreInner>
               <LanguagesContainer>
-                { analysis.quality.tabs.languages.map(l => 
+                { analysis.quality.tabs.languages.map(l =>
                   <ProgrammingLanguage style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}>
                     { l }
                   </ProgrammingLanguage>
@@ -322,7 +332,11 @@ export class Feedback extends React.Component<any, any> {
                   <CircularProgress size={48} />
                 </LoadingContainer>
               ):(
-                <JobOfferCard jobOffer={jobOffers.offers[0]}/>
+                <JobOfferWrapper>
+                { selectedJobOffers.map(o =>
+                    <JobOfferCard jobOffer={o} key={o.id}/>
+                )},
+              </JobOfferWrapper>
               )
             }
             <SignUpExplainer>
