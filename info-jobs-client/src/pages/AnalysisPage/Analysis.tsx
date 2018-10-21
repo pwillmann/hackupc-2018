@@ -56,7 +56,10 @@ export class Analysis extends React.Component<any, any> {
   onContinueClick = () => {
     this.props.history.push({
       pathname: '/results',
-      state: { analysis: this.state.analysis },
+      state: {
+        data: this.props.history.location.state.data,
+        analysis: this.state.analysis,
+      },
     });
   };
 

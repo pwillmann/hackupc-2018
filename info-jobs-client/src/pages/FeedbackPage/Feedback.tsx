@@ -62,12 +62,12 @@ const SignUpButton = styled.button`
   outline: 0;
   border: 0;
   border-radius: 3px;
-  background-color: #167DB7;
+  background-color: #167db7;
   color: #fff;
   user-select: none;
   cursor: pointer;
   box-shadow: 0 1px 10px 2px rgba(0, 0, 0, 0.3);
-  transition: .2s box-shadow;
+  transition: 0.2s box-shadow;
 
   &:hover {
     box-shadow: 0 3px 20px 2px rgba(0, 0, 0, 0.45);
@@ -119,16 +119,14 @@ const Content = styled.div`
   flex-direction: row;
 `;
 
-const CodeResults = styled(Results)`
-`;
+const CodeResults = styled(Results)``;
 
-const ResumeResults = styled(Results)`
-`;
+const ResumeResults = styled(Results)``;
 
 const Score = styled(CircularProgress)`
   margin: 0 auto;
-  width: 150px!important;
-  height: 150px!important;
+  width: 150px !important;
+  height: 150px !important;
   z-index: 99 !important;
 `;
 
@@ -171,7 +169,7 @@ const Todo = styled.div`
   line-height: 1.4rem;
   color: #333;
   background-color: #fafafa;
-  padding: .2rem .9rem .2rem .4rem;
+  padding: 0.2rem 0.9rem 0.2rem 0.4rem;
   border-radius: 3px;
   display: flex;
   align-items: center;
@@ -230,52 +228,62 @@ const JobOfferWrapper = styled.div`
   padding: 16px;
 `;
 
-const cities = [ './cities/company1.jpg', './cities/company2.jpg', './cities/company3.jpg', './cities/company4.jpg', './cities/Madrid1.jpg', './cities/Madrid2.jpg', './cities/Valencia1.jpg', './cities/Valencia2.jpg']
-
+const cities = [
+  './cities/company1.jpg',
+  './cities/company2.jpg',
+  './cities/company3.jpg',
+  './cities/company4.jpg',
+  './cities/Madrid1.jpg',
+  './cities/Madrid2.jpg',
+  './cities/Valencia1.jpg',
+  './cities/Valencia2.jpg',
+];
 
 export class Feedback extends React.Component<any, any> {
   state = {
     analysis: null,
     selectedJobOffers: null,
-    isLoading: true
+    isLoading: true,
   };
 
   componentWillMount = () => {
-    this.getInfoJobOffers('madrid')
-  }
+    console.log(this.props.history.location);
+    this.getInfoJobOffers(
+      this.props.history.location.state.data.github.location
+    );
+  };
 
-  getInfoJobOffers = async(city) => {
-    const clientId = '6a29786cb75a4509874281c77ae4a0ca'
-    const clientSecret = 'Xxj8kcjNKhUUY4ceO3ITyB3tf9V1M/eUAG1FS1Vj45ZZuNrwh3'
-    const authorizationKey = 'Basic ' + btoa(clientId + ':' + clientSecret)
+  getInfoJobOffers = async city => {
+    const clientId = '6a29786cb75a4509874281c77ae4a0ca';
+    const clientSecret = 'Xxj8kcjNKhUUY4ceO3ITyB3tf9V1M/eUAG1FS1Vj45ZZuNrwh3';
+    const authorizationKey = 'Basic ' + btoa(clientId + ':' + clientSecret);
 
     //const searchParams = new URLSearchParams('format=json');
 
     const PROXY_URL_PREFIX = 'https://cors-anywhere.herokuapp.com/';
-    const BASE_URL = 'https://api.infojobs.net'
-    const query = '/api/1/offer'
-    const queryUrl = PROXY_URL_PREFIX + BASE_URL + query + '?province=' + city
+    const BASE_URL = 'https://api.infojobs.net';
+    const query = '/api/1/offer';
+    const queryUrl = PROXY_URL_PREFIX + BASE_URL + query + '?city=' + city;
     const response = await fetch(queryUrl, {
-        method: 'GET',
-        headers: {'Authorization': authorizationKey,
-                  'Access-Control-Allow-Origin': '*'
-        }
+      method: 'GET',
+      headers: {
+        Authorization: authorizationKey,
+        'Access-Control-Allow-Origin': '*',
+      },
     });
-    const jobOffers = await response.json()
-    console.log(jobOffers)
-    const selectedJobOffers = jobOffers.offers.splice(0,4)
-    for (var i in selectedJobOffers){
-      console.log(cities[i])
-      selectedJobOffers[i]['imgSrc'] = cities[i]
+    const jobOffers = await response.json();
+    console.log(jobOffers);
+    const selectedJobOffers = jobOffers.offers.splice(0, 4);
+    for (var i in selectedJobOffers) {
+      console.log(cities[i]);
+      selectedJobOffers[i]['imgSrc'] = cities[i];
     }
-    console.log(selectedJobOffers)
+    console.log(selectedJobOffers);
     await this.setState({ ...this.state, selectedJobOffers });
-    const isLoading = false
-    this.setState({ ...this.state, isLoading })
-    return null
-  }
-
-
+    const isLoading = false;
+    this.setState({ ...this.state, isLoading });
+    return null;
+  };
 
   public render() {
     const { analysis } = this.props.location.state;
@@ -293,70 +301,80 @@ export class Feedback extends React.Component<any, any> {
           <Content>
             <ResumeResults>
               <ResultsHeader>Resume</ResultsHeader>
-              <Score value={40} style={{ color: orange[500] }} thickness={5} variant="static">
-              </Score>
-              <AvgScoreInner>
-                4 / 10
-              </AvgScoreInner>
+              <Score
+                value={40}
+                style={{ color: orange[500] }}
+                thickness={5}
+                variant="static"
+              />
+              <AvgScoreInner>4 / 10</AvgScoreInner>
               <TodoContainer>
                 <Todo>
-                  <Checkbox disabled checked/>
+                  <Checkbox disabled checked />
                   Keep bullets short
                 </Todo>
                 <Todo>
-                  <Checkbox disabled checked/>
+                  <Checkbox disabled checked />
                   Be more quantitative
                 </Todo>
                 <Todo>
-                  <Checkbox disabled checked/>
+                  <Checkbox disabled checked />
                   Include your GitHub profile
                 </Todo>
               </TodoContainer>
             </ResumeResults>
             <CodeResults>
               <ResultsHeader>Code</ResultsHeader>
-              <Score value={analysis.quality.value * 10} style={{ color: codeColor }} thickness={5} variant="static">
-              </Score>
-              <GoodScoreInner>
-                { analysis.quality.value } / 10
-              </GoodScoreInner>
+              <Score
+                value={analysis.quality.value * 10}
+                style={{ color: codeColor }}
+                thickness={5}
+                variant="static"
+              />
+              <GoodScoreInner>{analysis.quality.value} / 10</GoodScoreInner>
               <LanguagesContainer>
-                { analysis.quality.tabs.languages.map(l =>
-                  <ProgrammingLanguage style={{ backgroundColor: colors[Math.floor(Math.random() * 3)] }}>
-                    { l }
+                {analysis.quality.tabs.languages.map(l => (
+                  <ProgrammingLanguage
+                    style={{
+                      backgroundColor: colors[Math.floor(Math.random() * 3)],
+                    }}
+                  >
+                    {l}
                   </ProgrammingLanguage>
-                )}
+                ))}
               </LanguagesContainer>
             </CodeResults>
           </Content>
         </Wrapper>
         <SignUpWrapper>
           <SignUpInner>
-            <SignUpWrapperBackground  />
-            <BrandLogo src='/ij-logo.svg' />
-            <SignUpTitle>
-              Find Matching Jobs
-            </SignUpTitle>
+            <SignUpWrapperBackground />
+            <BrandLogo src="/ij-logo.svg" />
+            <SignUpTitle>Find Matching Jobs</SignUpTitle>
             {isLoading ? (
-                <LoadingContainer>
-                  <CircularProgress size={48} />
-                </LoadingContainer>
-              ):(
-                <JobOfferWrapper>
-                { selectedJobOffers.map(o =>
-                    <JobOfferCard jobOffer={o} key={o.id}/>
-                )},
+              <LoadingContainer>
+                <CircularProgress size={48} />
+              </LoadingContainer>
+            ) : (
+              <JobOfferWrapper>
+                {selectedJobOffers.map(o => (
+                  <JobOfferCard jobOffer={o} key={o.id} />
+                ))}
+                ,
               </JobOfferWrapper>
-              )
-            }
+            )}
             <SignUpExplainer>
-              Join InfoJobs, one of the most popular career websites on the internet.<br/>
-              We will automatically find the best jobs for you. Works like magic.<br/><br/>
-              Click below to create an InfoJobs account based on your resume.<br/>
+              Join InfoJobs, one of the most popular career websites on the
+              internet.
+              <br />
+              We will automatically find the best jobs for you. Works like
+              magic.
+              <br />
+              <br />
+              Click below to create an InfoJobs account based on your resume.
+              <br />
             </SignUpExplainer>
-            <SignUpButton>
-              Create InfoJobs Account
-            </SignUpButton>
+            <SignUpButton>Create InfoJobs Account</SignUpButton>
           </SignUpInner>
         </SignUpWrapper>
       </Layout>
