@@ -1,3 +1,4 @@
 import { Feedback } from './Feedback';
+import { withRouter } from 'react-router';
 
-export default Feedback;
+export default withRouter(Feedback);
