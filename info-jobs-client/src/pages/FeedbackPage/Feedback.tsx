@@ -223,6 +223,13 @@ const LoadingContainer = styled.div`
   justify-content: center;
 `;
 
+const JobOfferWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  padding: 16px;
+`;
+
 export class Feedback extends React.Component<any, any> {
   state = {
     analysis: null,
@@ -253,7 +260,7 @@ export class Feedback extends React.Component<any, any> {
     });
     const jobOffers = await response.json()
     console.log(jobOffers)
-    const selectedJobOffers = jobOffers.offers.splice(0,5)
+    const selectedJobOffers = jobOffers.offers.splice(0,4)
     await this.setState({ ...this.state, selectedJobOffers });
     const isLoading = false
     this.setState({ ...this.state, isLoading })
@@ -325,11 +332,11 @@ export class Feedback extends React.Component<any, any> {
                   <CircularProgress size={48} />
                 </LoadingContainer>
               ):(
-                <div>
+                <JobOfferWrapper>
                 { selectedJobOffers.map(o =>
                     <JobOfferCard jobOffer={o} key={o.id}/>
                 )},
-                </div>
+              </JobOfferWrapper>
               )
             }
             <SignUpExplainer>
