@@ -262,9 +262,11 @@ export class Feedback extends React.Component<any, any> {
 
   public render() {
     const { analysis } = this.props.location.state;
+
     const { selectedJobOffers, isLoading } = this.state;
-    console.log(analysis);
+
     let codeColor = analysis.quality.value > 5 ? green[500] : orange[500];
+
     const colors = [green[50], orange[50], red[50]];
 
     return (
