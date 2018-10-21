@@ -75,7 +75,7 @@ export default class FileDropZone extends React.Component<any, any> {
             onDrop={files => this.onDrop(files)}
             accept="application/pdf"
           >
-            <p>Drop your resume here.</p>
+            <p style={{ textAlign: 'center' }}>Drop your resume here<br/>to get feedback.</p>
           </Dropzone>
         </Wrapper>
       </section>

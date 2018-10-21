@@ -26,7 +26,7 @@ export class CvDropDropDown extends React.Component<any, any> {
     return (
       <Layout>
         <Wrapper>
-          <StyledHeader>Drop your CV</StyledHeader>
+          <StyledHeader>CV Quality Checker</StyledHeader>
           <FileDropZone history={history} />
         </Wrapper>
       </Layout>
