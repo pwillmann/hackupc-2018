@@ -230,6 +230,9 @@ const JobOfferWrapper = styled.div`
   padding: 16px;
 `;
 
+const cities = [ './cities/company1.jpg', './cities/company2.jpg', './cities/company3.jpg', './cities/company4.jpg', './cities/Madrid1.jpg', './cities/Madrid2.jpg', './cities/Valencia1.jpg', './cities/Valencia2.jpg']
+
+
 export class Feedback extends React.Component<any, any> {
   state = {
     analysis: null,
@@ -261,11 +264,18 @@ export class Feedback extends React.Component<any, any> {
     const jobOffers = await response.json()
     console.log(jobOffers)
     const selectedJobOffers = jobOffers.offers.splice(0,4)
+    for (var i in selectedJobOffers){
+      console.log(cities[i])
+      selectedJobOffers[i]['imgSrc'] = cities[i]
+    }
+    console.log(selectedJobOffers)
     await this.setState({ ...this.state, selectedJobOffers });
     const isLoading = false
     this.setState({ ...this.state, isLoading })
     return null
   }
+
+
 
   public render() {
     const { analysis } = this.props.location.state;

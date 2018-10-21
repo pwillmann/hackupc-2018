@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import CardMedia from '@material-ui/core/CardMedia';
+// import CardMedia from '@material-ui/core/CardMedia';
 import red from '@material-ui/core/colors/red';
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ const Offer = styled.div`
 
   width: 300px;
   min-height: 200px;
-  padding: 1.5rem;
+
 
   margin: 0 1rem;
 
@@ -44,14 +44,13 @@ const OfferContainer = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-
+    padding: 0 1.5rem 0 1.5rem;
 `;
 
 const Title = styled.h1`
   font-size: 1.4rem;
   font-weight: 500;
   color: #333;
-  text-align: center;
   margin: 2rem 0 2rem 0;
 `;
 
@@ -75,8 +74,13 @@ const Link = styled.a`
   text-decoration: none;
 `;
 
-const StyledCardMedia = styled(CardMedia)`
+// const StyledCardMedia = styled(CardMedia)`
+//
+// `;
 
+const CityImg = styled.img`
+  height: 200px;
+  border-radius: 10px 10px 0 0;
 `;
 
 
@@ -109,6 +113,7 @@ const styles = theme => ({
   },
 });
 
+
 class JobOfferCard extends React.Component<any, any> {
 
 
@@ -123,8 +128,6 @@ class JobOfferCard extends React.Component<any, any> {
     const parser = new DOMParser()
     const xml = parser.parseFromString(imageSrc, "text/xml")
 
-    console.log(imageSrc)
-    console.log(xml)
     console.log(xml.getElementsByClassName(".crop-image-large"))
     return imageSrc
   }
@@ -133,6 +136,7 @@ class JobOfferCard extends React.Component<any, any> {
 
   public render() {
     const { jobOffer } = this.props
+    console.log(jobOffer.imgSrc)
     const imageUrl = jobOffer.link
     this.getImage(imageUrl)
 
@@ -143,17 +147,14 @@ class JobOfferCard extends React.Component<any, any> {
             <Link href={jobOffer.link} key={jobOffer.id}>
               <Content>
                 <JobOfferContainer>
+                    <CityImg src={jobOffer.imgSrc}/>
 
-                    <StyledCardMedia
-                      component='img'
-                      image="https://e03-expansion.uecdn.es/assets/multimedia/imagenes/2017/11/30/15120715048392.jpg"
-                      title={jobOffer.city}
-                    />
                     <HeaderContainer>
                       <Title>{jobOffer.title}</Title>
+
+                      <City>{jobOffer.city}</City>
+                      <Company>{jobOffer.author.name}</Company>
                     </HeaderContainer>
-                    <City>{jobOffer.city}</City>
-                    <Company>{jobOffer.author.name}</Company>
 
                 </JobOfferContainer>
               </Content>
