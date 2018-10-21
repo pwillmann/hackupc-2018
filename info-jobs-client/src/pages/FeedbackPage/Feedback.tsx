@@ -317,7 +317,7 @@ export class Feedback extends React.Component<any, any> {
             ):(
               <div>
               { selectedJobOffers.map(o =>
-                  <JobOfferCard jobOffer={o}/>
+                  <JobOfferCard jobOffer={o} key={o.id}/>
               )},
               </div>
 
